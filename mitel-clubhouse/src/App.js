@@ -44,6 +44,7 @@ function App() {
   };
 
   const joinRoom = async (roomName) => {
+    leaveRoom()
     console.log(roomName)
     handleRoomNameChange(roomName)
     const userName = `user${Math.random()*100}`;
@@ -91,6 +92,7 @@ function App() {
         <Grid container justify="center">
           <Hallway joinRoom={joinRoom}/>
         </Grid>
+        <audio id="remote-audio" autoPlay playsInline></audio>
       </ThemeProvider>
 
       <Switch>
@@ -100,7 +102,6 @@ function App() {
         <Route path="/room/:id">
           <h2>Room to do</h2>
           <button>Click Me</button>
-          <video autoPlay playsInline></video>
         </Route>
       </Switch>
     </Router>
