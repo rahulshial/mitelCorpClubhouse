@@ -41,11 +41,6 @@ const twilioSdk = {
                 if (publication.track) {
                     document.getElementById(mediaDiv).appendChild(publication.track.attach());
                 }
-
-                // if (publication.isSubscribed) {
-                //     handleTrackDisabled(publication.track);
-                // }
-                // publication.on('subscribed', handleTrackDisabled);
             })
 
             participant.on('trackSubscribed', track => {

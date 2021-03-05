@@ -5,11 +5,9 @@ import twilioSdk from '../utilities/twilio'
 const Debug = () => {
     const [debugData, setDebugData] = useState({});
     const [room, setRoom] = useState();
-    const [isMuted, setMute] = useState(false);
 
     useEffect(() => {
-        const joinRoom = async (roomName) => {
-            const userName = 'test-user1'
+        const joinRoom = async (userName, roomName) => {
             const tempToken = twilioSdk.fetchVideoToken(userName, roomName)
             const currRoom = await twilioSdk.joinMediaRoom(tempToken, roomName)
             setRoom(currRoom)
@@ -20,13 +18,12 @@ const Debug = () => {
             setDebugData(await fireDb.getCollection('debugCollection'));
         }
         getDebugData();
-        joinRoom('media-room');
+        joinRoom('test-user1', 'media-room');
     }, []);
 
     return (
         <div className="debug">
         <audio id="remote-audio" autoPlay playsInline></audio>
-        {/* <button >{isMuted ? `click to mute` : `click to mute`}</button> */}
         <h1>{JSON.stringify(debugData)}</h1>
         <p>{JSON.stringify(room)}</p>
         </div>
