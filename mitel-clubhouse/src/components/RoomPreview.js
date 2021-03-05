@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles, makestyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles( (theme) => ({
    card: {
@@ -17,10 +18,10 @@ export default function RoomPreview(props) {
     const [ id, setId] = useState(props.id);
     return (
         <Paper elevation={3} borderRadius={16} className={classes.card}>
-            <h1>{name}</h1>
-            <p>{participants}</p>
-            <p>{icon}</p>
-            <p>{id}</p>
+            <Typography variant="h2">{name}</Typography>
+            <Typography variant="body1">{participants}</Typography>
+            <Typography variant="body1">{icon}</Typography>
+            <Typography variant="body1">{id}</Typography>
         </Paper>
     );
 }
