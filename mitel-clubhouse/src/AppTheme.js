@@ -11,7 +11,8 @@ export const appTheme = createMuiTheme({
       main: "#1E92DF",
     },
     background: {
-      default: "rgba(30, 146, 223, 0.3)",
+    //   default: "rgba(30, 146, 223, 0.3)",
+      default: "#bfdef2"
     },
   },
   typography: {

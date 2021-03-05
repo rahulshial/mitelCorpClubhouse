@@ -5,18 +5,21 @@ import axios from 'axios';
 // import Video from 'twilio-video';
 import twilioSdk from './utilities/twilio';
 // import { disconnect } from 'twilio-video'
+import { fireAuth } from './utilities/firebase'
 import { appTheme } from './AppTheme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Hallway from './components/Hallway.js';
 import NavBar from "./components/NavBar";
+import SingleRoom from "./components/SingleRoom"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
+  Redirect,
 } from "react-router-dom";
 
 
@@ -89,23 +92,28 @@ function App() {
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <NavBar createRoom={createNewRoom}/>
-        <Grid container justify="center">
-          <Hallway joinRoom={joinRoom}/>
-        </Grid>
+        <p onClick={fireAuth.signInWithGoogle}>Sign in</p>
+        <p onClick={fireAuth.signOut}>sign out</p>
         <audio id="remote-audio" autoPlay playsInline></audio>
       </ThemeProvider>
 
       <Switch>
-        <Route path="/user/:id">
-          <h2>User to do</h2>
-        </Route>
-        <Route path="/room/:id">
-          <h2>Room to do</h2>
-          <button>Click Me</button>
-        </Route>
-      </Switch>
+          <Route path="/user/:id">
+            <h2>User to do</h2>
+          </Route>
+          <Route path="/room/:id">
+            <SingleRoom />
+            {/* <button onClick={getUserMedia}>Click Me</button> */}
+            <video autoPlay playsInline></video>
+          </Route>
+          <Route exact path="/">
+          <Grid container justify="center">
+            <Hallway joinRoom={joinRoom}/>
+          </Grid>
+          </Route>
+          <Route render={ () => <Redirect to={{pathname: "/"}}/> }/>
+        </Switch>
     </Router>
   );
-};
-
+}
 export default App;

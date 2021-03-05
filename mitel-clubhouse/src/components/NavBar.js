@@ -110,9 +110,11 @@ export default function NavBar({ createRoom }) {
     <AppBar
       position="static"
       style={{
-        background: "rgba(30, 146, 223, 0)",
+        background: "#bfdef2",
         boxShadow: "none",
-        paddingTop: "2rem",
+        paddingTop: "1rem",
+        position: "sticky",
+        top: "0"
       }}
     >
       <Toolbar>

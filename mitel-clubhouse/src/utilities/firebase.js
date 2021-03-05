@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
+import 'firebase/auth'
 
 
 if (!firebase.apps.length) {
@@ -22,7 +23,64 @@ const fireDb = {
     const ref = db.collection(collection)
     const data = await ref.get()
     return data.docs.map(doc => doc.data())
+  },
+  getUserData: async (uid) => { 
+    const ref = db.collection('users').doc(uid)
+    const data = await ref.get()
+    return data.data()
+  },
+  userCheck: async (uid, photoURL) => {
+  const ref = db.collection('users').doc(uid)
+  await ref.get().then((doc) => { 
+    if (!doc.exists){ 
+      db.collection('users').doc(uid).set({
+        following: 0,
+        followers: 0,
+        followersList: {
+          name: "uid",
+        },
+        followingList: {
+          name: "uid",
+        },
+        twitter: "",
+        instagram: "",
+        photoURL: photoURL,
+    })
+    .then(() => {
+        console.log("Document successfully written!");
+    })
+    }
+  })},
+  followUser:(uid) => {
+    const currentUserRef = db.collection('users').doc(fireAuth.currentUserUid);
+    const userRef = db.collection('users').doc(fireAuth.currentUserUid);
+    currentUserRef.update({following:auth.currentUser})
   }
+ 
+}
+//Name: string Followers: number Following: number Description: string Twitter Url: url Instagram Url: url
+const auth = firebase.auth()
+
+var userData
+auth.onAuthStateChanged(() => {
+  if (auth.currentUser){
+    userData = fireDb.userCheck(auth.currentUser.uid, auth.currentUser.photoURL)
+      .then(fireDb.getUserData(auth.currentUser.uid).then(result => {console.log(result)}))
+        .then(console.log(userData))
+    
+  }
+})
+
+
+
+
+const fireAuth = {
+  signInWithGoogle: () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider);
+  },
+  signOut:() => auth.signOut(),
 }
 
-export default fireDb
+
+export {auth, db, fireDb, fireAuth}
