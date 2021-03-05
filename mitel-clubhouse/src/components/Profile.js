@@ -12,6 +12,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import picture from "../assets/examplePicture.jpg";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import { auth } from "../utilities/firebase"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,11 +64,11 @@ export default function Profile(props) {
       <Card className={classes.root}>
         <CardMedia
           className={classes.media}
-          image={picture}
+          image={auth.currentUser.photoURL}
           title="Paella dish"
         />
 
-        <CardHeader title="Levi Halvorson" />
+        <CardHeader title={auth.currentUser.displayName} />
         <CardContent>
           <Typography variant="body1" color="textSecondary" component="p">
             Business Analyst for the myMobilty Division at Mitel

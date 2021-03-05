@@ -6,7 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import Grid from "@material-ui/core/Grid";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -14,6 +13,7 @@ import Fade from "@material-ui/core/Fade";
 import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
+import { fireAuth, auth } from '../utilities/firebase'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +95,11 @@ export default function NavBar({ createRoom }) {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [roomIcon, setRoomIcon] = React.useState("money");
   const [roomName, handleRoomName] = React.useState("default");
+  const [isLoggedIn, setIsLoggedIn] = React.useState(auth.currentUser ?? false);
+
+  const handleLogin = async () => {
+      setIsLoggedIn(await fireAuth.signInWithGoogle());
+  }
 
   const handleRoomClick = (event) => {
     createRoom(roomName);
@@ -246,23 +251,19 @@ export default function NavBar({ createRoom }) {
           </Modal>
           {/* account icon on nav bar */}
           <Grid item xs>
-            <Link to="/profile">
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle
-                  fontSize="large"
-                  style={{
-                    color: "#424242",
+            <Link to={isLoggedIn ? "/profile" : "/"}>
+              <img
+                src={isLoggedIn ? auth.currentUser.photoURL : "https://i.stack.imgur.com/34AD2.jpg"}
+                onClick={handleLogin}
+                alt="profile pic"
+                fontSize="large"
+                style={{
+                  borderRadius: '50px',
+                  color: "#424242",
+                  width: '50px',
+                }} />
+            </ Link>
 
-                    fontSize: 40,
-                  }}
-                />
-              </IconButton>
-            </Link>
           </Grid>
         </Grid>
       </Toolbar>

@@ -88,10 +88,8 @@ function App() {
   return (
     <Router>
       <ThemeProvider theme={appTheme}>
-          <CssBaseline />
-
-          <audio id="remote-audio" autoPlay playsInline></audio>
-        
+        <CssBaseline />
+        <audio id="remote-audio" autoPlay playsInline></audio>
 
         <Switch>
           <Route path="/profile">

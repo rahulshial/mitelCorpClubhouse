@@ -61,25 +61,27 @@ const fireDb = {
 //Name: string Followers: number Following: number Description: string Twitter Url: url Instagram Url: url
 const auth = firebase.auth()
 
-var userData
 auth.onAuthStateChanged(() => {
   if (auth.currentUser){
-    userData = fireDb.userCheck(auth.currentUser.uid, auth.currentUser.photoURL)
-      .then(fireDb.getUserData(auth.currentUser.uid).then(result => {console.log(result)}))
-        .then(console.log(userData))
-    
+    fireDb.userCheck(auth.currentUser.uid, auth.currentUser.photoURL)
   }
 })
 
-
-
-
 const fireAuth = {
-  signInWithGoogle: () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+  signInWithGoogle: async () => {
+    if(!auth.currentUser) {
+      return auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then(() => {
+          return true;
+        }).catch(() => {
+          return false;
+        });
+    }
   },
-  signOut:() => auth.signOut(),
+  signOut:() => {
+    auth.signOut()
+    console.log(auth)
+  }
 }
 
 
