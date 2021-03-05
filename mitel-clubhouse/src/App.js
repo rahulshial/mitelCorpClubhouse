@@ -16,20 +16,9 @@ function App() {
     localMediaAvailable: false, /* Represents the availability of a LocalAudioTrack(microphone) and a LocalVideoTrack(camera) */
     hasJoinedRoom: false,
     activeRoom: null, // Track the current active room
-    token: null
+    token: null,
+    roomSID: null,
   });
-
-  useEffect(() => {
-    axios.get('/token')
-    .then((results) => {
-      const { identity, token } = results.data;
-      setState((prev) => ({
-        ...prev,
-        identity,
-        token
-      }))
-    });
-  },[]);
 
   const handleRoomNameChange = (event) => {
     setState((prev) => ({
@@ -39,45 +28,54 @@ function App() {
   };
 
   const joinRoom = () => {
-    console.log('Token: ', state.token)
-    console.log('RoomName: ', state.roomName)
-    console.log('Identity: ', state.identity);
-    const decodedToken = jwt_decode(state.token);
-    console.log('Decoded Token: ',decodedToken);
-    const TOKEN = JSON.stringify(decodedToken)
-    if(!state.roomName.trim()) {
+    axios.get(`/token/${state.roomName}`)
+    .then((response) => {
+      console.log(response);
+      const { identity, token } = response.data;
       setState((prev) => ({
         ...prev,
-        roomNameErr: true,
-      }));
-      return;
-    };
-    console.log("Joining room '" + state.roomName + "'...");
-    let connectOptions = {
-      name: state.roomName
-    };
-    Video.connect(TOKEN, connectOptions)
-    .then(roomJoined, error => {
+        identity,
+        token
+      }))
+      const decodedToken = jwt_decode(state.token);
+      const TOKEN = JSON.stringify(decodedToken)
+      if(!state.roomName.trim()) {
+        setState((prev) => ({
+          ...prev,
+          roomNameErr: true,
+        }));
+        return;
+      };
+      console.log("Joining room '" + state.roomName + "'...");
+      let connectOptions = {
+        name: state.roomName
+      };
+      Video.connect(TOKEN, connectOptions)
+      .then((data) => {
+        console.log('Room Joined: ', data);
+        console.log("Joined as '" + state.identity + "'");
+        setState((prev) => ({
+          ...prev,
+          activeRoom: state.roomName,
+          localMediaAvailable: true,
+          hasJoinedRoom: true  // Removes ‘Join Room’ button and shows ‘Leave Room’
+        }));
+      });
+    })
+    .catch((error) => {
       console.log('Connect Error: ', error)
       alert('Could not connect to Twilio: ' + error.message);
     });
   };
 
-  const roomJoined = () => {
-    // Called when a participant joins a room
-    console.log("Joined as '" + state.identity + "'");
-    setState((prev) => ({
-      ...prev,
-      activeRoom: state.roomName,
-      localMediaAvailable: true,
-      hasJoinedRoom: true  // Removes ‘Join Room’ button and shows ‘Leave Room’
-    }));
-  };
-
   const createNewRoom = () => {
     axios.post(`/createRoom/${state.roomName}`)
     .then((res) => {
-      console.log(res);
+      console.log(res.data.sid);
+      setState((prev) => ({
+        ...prev,
+        roomSID: res.data.sid,
+      }));
     })
   };
 
