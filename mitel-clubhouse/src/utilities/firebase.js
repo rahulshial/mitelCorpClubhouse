@@ -29,7 +29,7 @@ const fireDb = {
     const data = await ref.get()
     return data.data()
   },
-  userCheck: async (uid) => {
+  userCheck: async (uid, photoURL) => {
   const ref = db.collection('users').doc(uid)
   await ref.get().then((doc) => { 
     if (!doc.exists){ 
@@ -44,17 +44,35 @@ const fireDb = {
         },
         twitter: "",
         instagram: "",
+        photoURL: photoURL,
     })
     .then(() => {
         console.log("Document successfully written!");
     })
     }
-  })
-  },
+  })},
+  followUser:(uid) => {
+    const currentUserRef = db.collection('users').doc(fireAuth.currentUserUid);
+    const userRef = db.collection('users').doc(fireAuth.currentUserUid);
+    currentUserRef.update({following:auth.currentUser})
+  }
  
 }
 //Name: string Followers: number Following: number Description: string Twitter Url: url Instagram Url: url
 const auth = firebase.auth()
+
+var userData
+auth.onAuthStateChanged(() => {
+  if (auth.currentUser){
+    userData = fireDb.userCheck(auth.currentUser.uid, auth.currentUser.photoURL)
+      .then(fireDb.getUserData(auth.currentUser.uid).then(result => {console.log(result)}))
+        .then(console.log(userData))
+    
+  }
+})
+
+
+
 
 const fireAuth = {
   signInWithGoogle: () => {
@@ -62,8 +80,7 @@ const fireAuth = {
     auth.signInWithPopup(provider);
   },
   signOut:() => auth.signOut(),
-  currentUserUid:() => {return auth.currentUser.uid},
-  currentUserPhotoURl: () => {return auth.currentUser.photoURL}
 }
+
 
 export {auth, db, fireDb, fireAuth}
