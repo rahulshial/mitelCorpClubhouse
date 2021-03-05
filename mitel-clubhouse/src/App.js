@@ -16,6 +16,9 @@ import {
   useParams,
 } from "react-router-dom";
 
+import {FirebaseChat} from './utilities/FirebaseChat';
+import {fireDb, auth} from './utilities/firebase';
+
 export default function App() {
   const options = {
     video: true,
@@ -37,16 +40,13 @@ export default function App() {
     }
   };
 
+  
   return (
     <Router>
-      <ThemeProvider theme={appTheme}>
-        <CssBaseline />
-        <NavBar />
-        <Grid container justify="center">
-          <Hallway/>
-        </Grid>
-      </ThemeProvider>
-
+      <NavBar />
+      <div>
+        <h1>Main body to do (hallway and header)</h1>
+      </div>
       <Switch>
         <Route path="/user/:id">
           <h2>User to do</h2>
