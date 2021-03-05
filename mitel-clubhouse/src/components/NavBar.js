@@ -15,6 +15,7 @@ import Fade from "@material-ui/core/Fade";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import AddIcon from "@material-ui/icons/Add";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchButton: {
     size: "large",
+    // marginLeft: "1rem",
   },
   startRoom: {
     backgroundColor: "#3FD77E",
@@ -140,9 +142,13 @@ export default function MenuAppBar() {
           </Grid>
 
           <Grid container item xs={10} justify="center">
-            <Button className={classes.startRoom} onClick={handleModalOpen}>
+            <Typography
+              variant="button"
+              className={classes.startRoom}
+              onClick={handleModalOpen}
+            >
               + Start a room
-            </Button>
+            </Typography>
           </Grid>
           <Modal
             aria-labelledby="add room"
