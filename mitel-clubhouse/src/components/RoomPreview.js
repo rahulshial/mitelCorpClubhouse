@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import avatar1 from '../static/avatar1.png';
 import avatar2 from '../static/avatar2.jpeg';
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles( (theme) => ({
    card: {
@@ -67,9 +68,11 @@ export default function RoomPreview({joinRoom, ...props}) {
                             <img className={classes.icons} src="https://img.icons8.com/plasticine/64/000000/coffee.png"/>
                         </Grid>
                         <Grid container item xs={12} justify="center" alignItems="center">
-                            <Button onClick={() => joinRoom(name)} color="secondary" variant="contained" className={classes.joinRoom} disableElevation>
-                                <Typography variant="body1" >Join room</ Typography>
-                            </Button>
+                            <Link to={"room/"+name} style={{ textDecoration: 'none' }}>
+                                <Button onClick={() => joinRoom(name)} color="secondary" variant="contained" className={classes.joinRoom} disableElevation>
+                                    <Typography variant="body1" >Join room</ Typography>
+                                </Button>
+                            </Link>
                         </Grid>
                     </Grid>
                 </Grid>
