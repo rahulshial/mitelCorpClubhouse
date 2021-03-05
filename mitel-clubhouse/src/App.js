@@ -1,7 +1,13 @@
-import React from "react";
+import React from 'react';
+import './App.css';
+import { appTheme } from './AppTheme';
+import { ThemeProvider } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Hallway from './components/Hallway.js';
+
 import Debug from "./Debug";
-import NavBar from "./NavBar/NavBar";
-import "./App.css";
+import NavBar from "./components/NavBar";
 import {
   BrowserRouter as Router,
   Switch,
@@ -36,10 +42,13 @@ export default function App() {
   
   return (
     <Router>
-      <NavBar />
-      <div>
-        <h1>Main body to do (hallway and header)</h1>
-      </div>
+      <ThemeProvider theme={appTheme}>
+        <CssBaseline />
+        <NavBar />
+        <Grid container justify="center">
+          <Hallway/>
+        </Grid>
+      </ThemeProvider>
 
       <Switch>
         <Route path="/user/:id">
