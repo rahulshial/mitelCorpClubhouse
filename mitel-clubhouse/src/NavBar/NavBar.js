@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     textAlign: "center",
     textSize: "30px",
-    margin: "4rem 0 2rem 0",
+    marginTop: "4rem",
   },
   roomInputLabel: {
     textAlign: "center",
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   letsGoButton: {
     backgroundColor: "#3FD77E",
     color: "white",
-    fontSize: "24px",
+    fontSize: "32px",
     padding: "0 8rem",
     borderRadius: "2rem",
   },
@@ -107,7 +107,7 @@ export default function MenuAppBar() {
   };
 
   const handleRoomIcon = (event, newRoomIcon) => {
-    setRoomIcon(newRoomIcon);
+    setRoomIcon(event.target.ariaLabel);
   };
 
   const handleLetsGoButton = () => {
@@ -174,61 +174,61 @@ export default function MenuAppBar() {
                     placeholder="Name your Room (optional)"
                   />
                 </FormControl>
-                <p style={{}}>Select the room icon</p>
+                <p style={{ fontSize: "40px", marginBottom: 0 }}>
+                  Select the room icon
+                </p>
                 <div>
-                  <ToggleButtonGroup
-                    value={roomIcon}
-                    exclusive
-                    onChange={handleRoomIcon}
-                    aria-label="text alignment"
-                    style={{ marginBottom: "4rem" }}
+                  <Button
+                    value="books"
+                    aria-label="books"
+                    className={classes.roomEmojis}
+                    onClick={handleRoomIcon}
                   >
-                    <Button
-                      value="books"
-                      aria-label="books"
-                      className={classes.roomEmojis}
-                    >
-                      <span role="img" aria-label="books">
-                        📚
-                      </span>
-                    </Button>
-                    <Button
-                      value="burger"
-                      aria-label="burger"
-                      className={classes.roomEmojis}
-                    >
-                      <span role="img" aria-label="burger">
-                        🍔
-                      </span>
-                    </Button>
-                    <Button
-                      value="money"
-                      aria-label="money"
-                      className={classes.roomEmojis}
-                    >
-                      <span role="img" aria-label="money">
-                        💸
-                      </span>
-                    </Button>
-                    <Button
-                      value="keyboard"
-                      aria-label="keyboard"
-                      className={classes.roomEmojis}
-                    >
-                      <span role="img" aria-label="keyboard">
-                        ⌨️
-                      </span>
-                    </Button>
-                    <Button value="add" aria-label="add">
-                      <AddIcon className={classes.roomEmojis} />
-                    </Button>
-                  </ToggleButtonGroup>
+                    <span role="img" aria-label="books">
+                      📚
+                    </span>
+                  </Button>
+                  <Button
+                    value="burger"
+                    aria-label="burger"
+                    className={classes.roomEmojis}
+                    onClick={handleRoomIcon}
+                  >
+                    <span role="img" aria-label="burger">
+                      🍔
+                    </span>
+                  </Button>
+                  <Button
+                    value="money"
+                    aria-label="money"
+                    className={classes.roomEmojis}
+                    onClick={handleRoomIcon}
+                  >
+                    <span role="img" aria-label="money">
+                      💸
+                    </span>
+                  </Button>
+                  <Button
+                    value="keyboard"
+                    aria-label="keyboard"
+                    className={classes.roomEmojis}
+                    onClick={handleRoomIcon}
+                  >
+                    <span role="img" aria-label="keyboard">
+                      ⌨️
+                    </span>
+                  </Button>
+                  <Button value="add" aria-label="add" onClick={handleRoomIcon}>
+                    <AddIcon className={classes.roomEmojis} />
+                  </Button>
                 </div>
-                <p>Start a room open to everyone</p>
+                <p style={{ fontSize: "40px", fontFamily: "Quicksand" }}>
+                  Start a room open to everyone
+                </p>
                 <div>
                   <Button
                     className={classes.letsGoButton}
-                    onClick={handleLetsGoButton}
+                    onClick={handleModalClose}
                   >
                     <span role="img" aria-label="muscle">
                       💪 Let's go
