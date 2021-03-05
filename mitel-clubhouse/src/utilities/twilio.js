@@ -23,6 +23,18 @@ const twilioSdk = {
             participant.on('trackSubscribed', track => {
                 document.getElementById(mediaDiv).appendChild(track.attach());
             });
+
+            room.participants.forEach(participant => {
+                participant.tracks.forEach(publication => {
+                  if (publication.track) {
+                    document.getElementById(mediaDiv).appendChild(publication.track.attach());
+                  }
+                });
+              
+               participant.on('trackSubscribed', track => {
+                  document.getElementById(mediaDiv).appendChild(track.attach());
+                });
+              });
         });
     },
     joinMediaRoom: async (token, roomName) => {
