@@ -12,8 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
+import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
 
@@ -54,12 +53,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F1EEE7",
     borderRadius: "15px",
     width: "50%",
-    height: "12%",
+    height: "15%",
     border: "none",
-    justifyContent: "flex-end",
+    fontFamily: "Quicksand",
+    fontWeight: 700,
+    justifyContent: "center",
+    alignContent: "center",
     textAlign: "center",
     textSize: "30px",
-    marginTop: "4rem",
+    marginTop: "3rem",
+    marginBottom: "1rem",
   },
   roomInputLabel: {
     textAlign: "center",
@@ -68,12 +71,12 @@ const useStyles = makeStyles((theme) => ({
   letsGoButton: {
     backgroundColor: "#3FD77E",
     color: "white",
-    fontSize: "32px",
+    fontSize: "24px",
     padding: "0 8rem",
     borderRadius: "2rem",
   },
   roomEmojis: {
-    fontSize: "6rem",
+    fontSize: "4rem",
   },
 }));
 
@@ -142,17 +145,15 @@ export default function MenuAppBar() {
           </Grid>
 
           <Grid container item xs={10} justify="center">
-            <Typography
-              variant="button"
-              className={classes.startRoom}
-              onClick={handleModalOpen}
-            >
-              + Start a room
-            </Typography>
+            <Button className={classes.startRoom} onClick={handleModalOpen}>
+              <Typography variant="button">+ Start a room</Typography>
+            </Button>
           </Grid>
           <Modal
             aria-labelledby="add room"
             aria-describedby="add room modal"
+            disableEnforceFocus
+            disableAutoFocus
             className={classes.modal}
             open={modalOpen}
             onClose={handleModalClose}
@@ -164,21 +165,12 @@ export default function MenuAppBar() {
           >
             <Fade in={modalOpen}>
               <div className={classes.paper}>
-                <FormControl className={classes.roomNameInput}>
-                  {/* <InputLabel
-                    htmlFor="my-input"
-                    className={classes.roomInputLabel}
-                  >
-                    Name your Room (optional)
-                  </InputLabel> */}
-                  <TextField
-                    aria-describedby="my-helper-text"
-                    placeholder="Name your Room (optional)"
-                  />
-                </FormControl>
-                <p style={{ fontSize: "40px", marginBottom: 0 }}>
-                  Select the room icon
-                </p>
+                <TextField
+                  className={classes.roomNameInput}
+                  aria-describedby="my-helper-text"
+                  placeholder="Name your Room (optional)"
+                />
+                <Typography variant="body2">Select the room icon</Typography>
                 <div>
                   <Button
                     value="books"
@@ -224,9 +216,9 @@ export default function MenuAppBar() {
                     <AddIcon className={classes.roomEmojis} />
                   </Button>
                 </div>
-                <p style={{ fontSize: "40px", fontFamily: "Quicksand" }}>
+                <Typography variant="body2">
                   Start a room open to everyone
-                </p>
+                </Typography>
                 <div>
                   <Button
                     className={classes.letsGoButton}
