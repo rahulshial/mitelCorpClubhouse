@@ -88,7 +88,7 @@ const mockData = [
     },
 ];
 
-export default function Hallway () {
+export default function Hallway ({ joinRoom }) {
     const classes = useStyles();
     const [ roomData, setRoomData ] = useState(mockData);
 
@@ -96,12 +96,13 @@ export default function Hallway () {
         <Box maxWidth={1500} justify="center" className={classes.container}>
             <Grid container justify="center" spacing={3}>
                 {roomData.map( (room) => (
-                    <Grid item xs={12} md={5} xl={4} >
+                    <Grid key={room.roomName} item xs={12} md={5} xl={4} >
                         <RoomPreview
                             name={room.roomName}
                             particpants={room.participantsList}
                             icon={room.icon}
-                            id={room.id}/>
+                            id={room.id}
+                            joinRoom={joinRoom}/>
                     </Grid>
                     
                 ))}
