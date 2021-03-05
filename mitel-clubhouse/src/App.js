@@ -41,7 +41,7 @@ export default function App() {
     <Router>
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
-      <NavBar />
+        <NavBar />
         <Grid container justify="center">
           <Hallway/>
         </Grid>
