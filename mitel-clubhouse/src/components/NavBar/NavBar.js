@@ -165,7 +165,7 @@ export default function MenuAppBar() {
                   >
                     Name your Room (optional)
                   </InputLabel> */}
-                  <Input
+                  <TextField
                     aria-describedby="my-helper-text"
                     placeholder="Name your Room (optional)"
                   />
