@@ -9,6 +9,13 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Grid from "@material-ui/core/Grid";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
   },
   searchButton: {
     size: "large",
-    // marginLeft: "1rem",
   },
   startRoom: {
     backgroundColor: "#3FD77E",
@@ -25,11 +31,43 @@ const useStyles = makeStyles((theme) => ({
     padding: "0 8rem",
     borderRadius: "2rem",
   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "none",
+  },
+  paper: {
+    backgroundColor: "white",
+    position: "absolute",
+    borderRadius: "50px",
+    border: "none",
+    width: "65%",
+    height: "70%",
+  },
+  roomNameInput: {
+    display: "flex",
+    position: "absolute",
+    backgroundColor: "#F1EEE7",
+    borderRadius: "15px",
+    left: "25%",
+    top: "10%",
+    width: "50%",
+    height: "12%",
+    border: "none",
+    justifyContent: "center",
+    textAlign: "center",
+    textSize: "30px",
+  },
+  roomInputLabel: {
+    textAlign: "center",
+    textSize: "30px",
+  },
 }));
 
 export default function MenuAppBar() {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
+  const [modalOpen, setModalOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -43,6 +81,14 @@ export default function MenuAppBar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -68,53 +114,82 @@ export default function MenuAppBar() {
               color="inherit"
               aria-label="menu"
             >
-              <SearchIcon style={{ color: "#424242", fontSize: 40 }} />
+              <SearchIcon
+                style={{ color: "#424242", height: "53px", width: "56px" }}
+              />
             </IconButton>
           </Grid>
 
           <Grid container item xs={10} justify="center">
-            <Button className={classes.startRoom} onClick={handleRoomClick}>
+            <Button className={classes.startRoom} onClick={handleModalOpen}>
               + Start a room
+              {/* <span role="img" aria-label="muscle">
+                💪
+              </span> */}
             </Button>
           </Grid>
-          {auth && (
-            <Grid item xs>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle
-                  fontSize="large"
-                  style={{
-                    color: "#424242",
+          <Modal
+            aria-labelledby="add room"
+            aria-describedby="add room modal"
+            className={classes.modal}
+            open={modalOpen}
+            onClose={handleModalClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={modalOpen}>
+              <div className={classes.paper}>
+                <FormControl className={classes.roomNameInput}>
+                  <InputLabel
+                    htmlFor="my-input"
+                    className={classes.roomInputLabel}
+                  >
+                    Name your Room (optional)
+                  </InputLabel>
+                  <Input aria-describedby="my-helper-text" />
+                </FormControl>
+              </div>
+            </Fade>
+          </Modal>
 
-                    fontSize: 40,
-                  }}
-                />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+          <Grid item xs>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle
+                fontSize="large"
+                style={{
+                  color: "#424242",
+
+                  fontSize: 40,
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </Grid>
-          )}
+              />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>My Profile</MenuItem>
+            </Menu>
+          </Grid>
         </Grid>
       </Toolbar>
     </AppBar>
