@@ -108,7 +108,7 @@ export default function NavBar(props) {
     <AppBar
       position="static"
       style={{
-        background: "rgba(30, 146, 223, 0.3)",
+        background: "rgba(30, 146, 223, 0)",
         boxShadow: "none",
         paddingTop: "2rem",
       }}
