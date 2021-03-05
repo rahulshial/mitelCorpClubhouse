@@ -17,16 +17,12 @@ export default function App() {
   }
 
   const handleSuccess = (stream) => {
-    console.log('handle success');
     const video = document.querySelector('video');
-    const videoTracks = stream.getVideoTracks();
-    console.log(`Using video device: ${videoTracks[0].label}`);
     window.stream = stream; // make variable available to browser console
     video.srcObject = stream;
   }
 
   const getUserMedia = async (constraints) => {
-      console.log('trying to click')
       try
       {
         const stream = await navigator.mediaDevices.getUserMedia(options);
