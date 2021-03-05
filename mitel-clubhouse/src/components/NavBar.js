@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
@@ -97,13 +98,7 @@ export default function NavBar({ createRoom }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(auth.currentUser ?? false);
 
   const handleLogin = async () => {
-    if (!isLoggedIn) {
       setIsLoggedIn(await fireAuth.signInWithGoogle());
-    }
-  }
-
-  const handleProfile = () => {
-    
   }
 
   const handleRoomClick = (event) => {
@@ -136,7 +131,7 @@ export default function NavBar({ createRoom }) {
         boxShadow: "none",
         paddingTop: "1rem",
         position: "sticky",
-        top: "0"
+        top: "0",
       }}
     >
       <Toolbar>
@@ -254,7 +249,8 @@ export default function NavBar({ createRoom }) {
           </Modal>
           {/* account icon on nav bar */}
           <Grid item xs>
-            <img
+            <Link to={isLoggedIn ? "/profile" : "/"}>
+              <img
                 src={isLoggedIn ? auth.currentUser.photoURL : "https://i.stack.imgur.com/34AD2.jpg"}
                 onClick={handleLogin}
                 alt="profile pic"
@@ -264,6 +260,8 @@ export default function NavBar({ createRoom }) {
                   color: "#424242",
                   width: '50px',
                 }} />
+            </ Link>
+
           </Grid>
         </Grid>
       </Toolbar>
