@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import Video from 'twilio-video';
 
 import { Button, TextField, Card, CardContent } from '@material-ui/core';
-
-import Video from 'twilio-video';
 
 function App() {
 
@@ -39,9 +39,12 @@ function App() {
   };
 
   const joinRoom = () => {
-    console.log('Token', state.token)
+    console.log('Token: ', state.token)
     console.log('RoomName: ', state.roomName)
     console.log('Identity: ', state.identity);
+    const decodedToken = jwt_decode(state.token);
+    console.log('Decoded Token: ',decodedToken);
+    const TOKEN = JSON.stringify(decodedToken)
     if(!state.roomName.trim()) {
       setState((prev) => ({
         ...prev,
@@ -53,8 +56,9 @@ function App() {
     let connectOptions = {
       name: state.roomName
     };
-    Video.connect(state.token, connectOptions)
+    Video.connect(TOKEN, connectOptions)
     .then(roomJoined, error => {
+      console.log('Connect Error: ', error)
       alert('Could not connect to Twilio: ' + error.message);
     });
   };
@@ -88,9 +92,7 @@ function App() {
         <CardContent>
           <div className="flex-container">
             <div className="flex-item">
-              <TextField hintText="Room Name" onChange={(event) => {handleRoomNameChange(event)}}
-              errorText = {state.roomNameErr ? 'Room Name is required' : undefined} 
-              />
+              <TextField id="RoomName" label="Room Name" onChange={(event) => {handleRoomNameChange(event)}}></TextField>
               <br />
               {state.hasJoinedRoom ? (
               <Button variant="contained" onClick={() => alert("Leave Room")}>Leave Room</Button> ):

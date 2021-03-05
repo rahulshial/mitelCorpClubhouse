@@ -13,7 +13,7 @@ app.post('/createRoom/:roomName', function(req, res) {
   console.log('Creating a room...');
   client.video.rooms.create({uniqueName: req.params.roomName})
   .then((room) => {
-    console.log(room, room.sid)
+    // console.log(room, room.sid)
     res.send(room);
   });
 });
@@ -23,10 +23,14 @@ app.get('/token', function(request, response) {
     const identity = faker.name.findName();
   // Create an access token which we will sign and return to the client,
   // containing the grant we just created
+
+  const ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
+  const API_KEY_SID = process.env.TWILIO_API_KEY;
+  const API_KEY_SECRET = process.env.TWILIO_API_SECRET;
   const token = new AccessToken(
-      process.env.TWILIO_ACCOUNT_SID,
-      process.env.TWILIO_API_KEY,
-      process.env.TWILIO_API_SECRET
+    ACCOUNT_SID,
+    API_KEY_SID,
+    API_KEY_SECRET,
   );
   // Assign the generated identity to the token
   token.identity = identity;
@@ -39,7 +43,6 @@ app.get('/token', function(request, response) {
       token: token.toJwt()
   });
 });
-
 
 app.listen(port, () => {
   console.log(`Twilio server now listening to port ${port}`);
