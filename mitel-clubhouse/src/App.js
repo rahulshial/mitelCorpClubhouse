@@ -95,24 +95,23 @@ function App() {
         <p onClick={fireAuth.signInWithGoogle}>Sign in</p>
         <p onClick={fireAuth.signOut}>sign out</p>
         <audio id="remote-audio" autoPlay playsInline></audio>
-      </ThemeProvider>
-
-      <Switch>
-          <Route path="/user/:id">
-            <h2>User to do</h2>
-          </Route>
-          <Route path="/room/:id">
-            <SingleRoom />
-            {/* <button onClick={getUserMedia}>Click Me</button> */}
-            <video autoPlay playsInline></video>
-          </Route>
-          <Route exact path="/">
-          <Grid container justify="center">
-            <Hallway joinRoom={joinRoom}/>
-          </Grid>
-          </Route>
-          <Route render={ () => <Redirect to={{pathname: "/"}}/> }/>
-        </Switch>
+        <Switch>
+            <Route path="/user/:id">
+              <h2>User to do</h2>
+            </Route>
+            <Route path="/room/:id">
+              <SingleRoom />
+              {/* <button onClick={getUserMedia}>Click Me</button> */}
+              <video autoPlay playsInline></video>
+            </Route>
+            <Route exact path="/">
+            <Grid container justify="center">
+              <Hallway joinRoom={joinRoom}/>
+            </Grid>
+            </Route>
+            <Route render={ () => <Redirect to={{pathname: "/"}}/> }/>
+          </Switch>
+        </ThemeProvider>
     </Router>
   );
 }
