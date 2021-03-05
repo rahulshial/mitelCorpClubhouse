@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar() {
+export default function NavBar(props) {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
   const [roomIcon, setRoomIcon] = React.useState("money");
@@ -102,25 +102,6 @@ export default function MenuAppBar() {
 
   const handleInputChange = (event) => {
     setRoomName(event.target.value);
-  };
-
-  const handleLetsGoButton = async (event) => {
-    console.log("lets go", roomName, roomIcon);
-    const roomInfo = {
-      name: roomName,
-      icon: roomIcon,
-    };
-    const res = await fetch("/", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(roomInfo),
-    });
-
-    const data = res.json();
-    console.log("added room...", res);
-    setModalOpen(false);
   };
 
   return (
@@ -235,7 +216,7 @@ export default function MenuAppBar() {
                 <div>
                   <Button
                     className={classes.letsGoButton}
-                    onClick={handleLetsGoButton}
+                    onClick={props.clicked}
                   >
                     <span role="img" aria-label="muscle">
                       💪 Let's go
