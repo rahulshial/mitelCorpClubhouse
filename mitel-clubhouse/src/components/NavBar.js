@@ -235,14 +235,16 @@ export default function NavBar({ createRoom }) {
                 </Typography>
                 {/* //lets go button inside modal */}
                 <div>
-                  <Button
-                    className={classes.letsGoButton}
-                    onClick={() => handleRoomClick(roomName)}
-                  >
-                    <span role="img" aria-label="muscle">
-                      💪 Let's go
-                    </span>
-                  </Button>
+                  <Link to={"room/"+roomName} style={{ textDecoration: 'none' }}>
+                    <Button
+                      className={classes.letsGoButton}
+                      onClick={() => handleRoomClick(roomName)}
+                    >
+                      <span role="img" aria-label="muscle">
+                        💪 Let's go
+                      </span>
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Fade>

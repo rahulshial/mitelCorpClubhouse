@@ -86,7 +86,8 @@ const useStyles = makeStyles( (theme) => ({
                         <Grid container item xs={12} direction="row" className={classes.backButton}>
                             <Grid item xs={3}>
                                 <Link to="/" style={{ textDecoration: 'none' }}>
-                                    <Button color="black" startIcon={<ArrowBackIosIcon/>}>
+                                    <Button color="black" startIcon={<ArrowBackIosIcon/>}
+                                        onClick={() => props.leaveRoom()}>
                                         <Typography variant="body1">All Rooms</Typography>
                                     </Button>
                                 </Link>
@@ -116,7 +117,8 @@ const useStyles = makeStyles( (theme) => ({
                         <Grid container item xs={12} direction="row" className={classes.backButton}>
                             <Grid item xs={3}>
                                 <Link to="/" style={{ textDecoration: 'none' }}>
-                                    <Button variant="contained" color="error" startIcon={<CallEndIcon style={{color: "#000000"}}/>} className={classes.redButton}>
+                                    <Button variant="contained" color="error" startIcon={<CallEndIcon style={{color: "#000000"}}/>} className={classes.redButton}
+                                    onClick={() => props.leaveRoom()}>
                                         <Typography variant="body1">Leave Quietly</Typography>
                                     </Button>
                                 </Link>

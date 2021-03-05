@@ -98,7 +98,7 @@ function App() {
           <Route path="/room/:id">
             <NavBar createRoom={createNewRoom} />
 
-            <SingleRoom />
+            <SingleRoom leaveRoom={leaveRoom}/>
             {/* <button onClick={getUserMedia}>Click Me</button> */}
             <video autoPlay playsInline></video>
           </Route>
@@ -111,7 +111,6 @@ function App() {
           </Route>
           <Route render={() => <Redirect to={{ pathname: "/" }} />} />
         </Switch>
-
       </ThemeProvider>
     </Router>
   );
