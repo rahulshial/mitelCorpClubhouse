@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
-import Video from 'twilio-video';
+// import jwt_decode from 'jwt-decode';
+// import Video from 'twilio-video';
 import twilioSdk from './utilities/twilio';
+// import { disconnect } from 'twilio-video'
 
 import { Button, TextField, Card, CardContent } from '@material-ui/core';
 
@@ -29,61 +30,36 @@ function App() {
   };
 
   const joinRoom = async () => {
-    const userName = `user${Math.random()*100}`
-    const roomName = state.roomName
-    const token = twilioSdk.fetchVideoToken(userName, roomName)
-    const currRoom = await twilioSdk.joinMediaRoom(token, roomName)
-    twilioSdk.subscribeToRoomMedia(currRoom, 'remote-audio')
-    twilioSdk.subscribeToMediaChanges(currRoom, 'remote-audio')
-    // axios.get(`/token/${state.roomName}`)
-    // .then((response) => {
-    //   console.log(response);
-    //   const { identity, token } = response.data;
-    //   setState((prev) => ({
-    //     ...prev,
-    //     identity,
-    //     token
-    //   }))
-    //   const decodedToken = jwt_decode(state.token);
-    //   const TOKEN = JSON.stringify(decodedToken)
-    //   if(!state.roomName.trim()) {
-    //     setState((prev) => ({
-    //       ...prev,
-    //       roomNameErr: true,
-    //     }));
-    //     return;
-    //   };
-    //   console.log("Joining room '" + state.roomName + "'...");
-    //   let connectOptions = {
-    //     name: state.roomName
-    //   };
-    //   Video.connect(TOKEN, connectOptions)
-    //   .then((data) => {
-    //     console.log('Room Joined: ', data);
-    //     console.log("Joined as '" + state.identity + "'");
-    //     setState((prev) => ({
-    //       ...prev,
-    //       activeRoom: state.roomName,
-    //       localMediaAvailable: true,
-    //       hasJoinedRoom: true  // Removes ‘Join Room’ button and shows ‘Leave Room’
-    //     }));
-    //   });
-    // })
-    // .catch((error) => {
-    //   console.log('Connect Error: ', error)
-    //   alert('Could not connect to Twilio: ' + error.message);
-    // });
+    const userName = `user${Math.random()*100}`;
+    const roomName = state.roomName;
+    const token = twilioSdk.fetchVideoToken(userName, roomName);
+    const currRoom = await twilioSdk.joinMediaRoom(token, roomName);
+    setState((prev) => ({
+      ...prev,
+      activeRoom: currRoom,
+    }))
+    twilioSdk.subscribeToRoomMedia(currRoom, 'remote-audio');
+    twilioSdk.subscribeToMediaChanges(currRoom, 'remote-audio');
+
   };
 
   const createNewRoom = () => {
     axios.post(`/createRoom/${state.roomName}`)
     .then((res) => {
-      console.log(res.data.sid);
       setState((prev) => ({
         ...prev,
         roomSID: res.data.sid,
       }));
     })
+  };
+
+  const leaveRoom = () => {
+    if(state.roomName) {
+      const videoRoom = state.activeRoom
+      // videoRoom.disconnect();
+      console.log('leaving room');
+      twilioSdk.leaveMediaRoom(videoRoom, 'remote-audio');
+    };
   };
 
   return (
@@ -93,16 +69,16 @@ function App() {
         </div>
         <audio id="remote-audio" autoPlay playsInline></audio>
         <Button variant="contained" onClick={createNewRoom}>Create Room</Button>
-
       <Card>
         <CardContent>
           <div className="flex-container">
             <div className="flex-item">
               <TextField id="RoomName" label="Room Name" onChange={(event) => {handleRoomNameChange(event)}}></TextField>
               <br />
-              {state.hasJoinedRoom ? (
-              <Button variant="contained" onClick={() => alert("Leave Room")}>Leave Room</Button> ):
-              (<Button variant="contained" onClick={joinRoom}>Join Room</Button>)}
+              <Button variant="contained" onClick={joinRoom}>Join Room</Button>
+              <br />
+              <br />
+              <Button variant="contained" onClick={leaveRoom}>Leave Room</Button>
             </div>
         </div>
       </CardContent>

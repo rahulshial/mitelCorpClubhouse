@@ -76,6 +76,16 @@ const twilioSdk = {
                 });
                 return room;
             })
+    },
+    leaveMediaRoom: (room, mediaDiv) => {
+        room.on('disconnected', room => {
+            // Detach the local media elements
+            room.localParticipant.tracks.forEach(track => {
+              const attachedElements = track.detach();
+              attachedElements.forEach(element => element.remove());
+            });
+          });
+          room.disconnect();
     }
 }
 
