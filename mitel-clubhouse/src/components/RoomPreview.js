@@ -9,6 +9,34 @@ import avatar1 from '../static/avatar1.png';
 import avatar2 from '../static/avatar2.jpeg';
 import {Link} from 'react-router-dom'
 
+const mockUserData = [
+    {
+       name: "Andrew Garneau",
+       imageUrl: "https://ca.slack-edge.com/T01PH750RL6-U01PQ1V4GJ1-b6607685df50-512",
+    },
+    {
+       name: "HaoHao Du",
+       imageUrl: "https://files.slack.com/files-pri/T01PH750RL6-F01Q901LUQ5/received_867407077088577__1_.jpeg",
+    },
+    {
+       name: "Jerry Fengwei Zhang",
+       imageUrl: "https://ca.slack-edge.com/T01PH750RL6-U01PASG5KAT-c70e9d421a30-512",
+    },
+    {
+       name: "Sammi Yeung",
+       imageUrl: "https://ca.slack-edge.com/T01PH750RL6-U01PQ1V20JH-f9b75ba23f93-512",
+    },
+    {
+       name: "Lucas Chan",
+       imageUrl: "https://ca.slack-edge.com/T01PH750RL6-U01PZ9A4YGL-28b63259037d-512",
+    },
+    {
+       name: "Rahul Shial",
+       imageUrl: "https://ca.slack-edge.com/T01PH750RL6-U01PQ1V11N1-e1b5ad8e7c5b-512",
+    },
+];
+
+
 const useStyles = makeStyles( (theme) => ({
    card: {
        borderRadius: '20px',
@@ -56,11 +84,11 @@ export default function RoomPreview({joinRoom, ...props}) {
                         <Avatar alt="Andrew Garneau" src={avatar1} className={classes.avatar} />
                     </Grid>
                     <Grid container item xs={3} direction="column" className={classes.nameContainer}>
-                        {participants.slice(0, 4).map( (name) =>(
-                            <Typography variant="body1">{name}</Typography>
+                        {mockUserData.slice(0, 4).map( (user) =>(
+                            <Typography variant="body1">{user.name}</Typography>
                          ))}
-                        { participants.length > 4 &&
-                            <Typography variant="body1" >+ {participants.length - 4} More</Typography>
+                        { mockUserData.length > 4 &&
+                            <Typography variant="body1" >+ {mockUserData.length - 4} More</Typography>
                         }
                     </Grid>
                     <Grid container item xs={6} justify="center">
