@@ -9,6 +9,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   startRoom: {
     backgroundColor: "#3FD77E",
     color: "white",
-    fontSize: "24px",
     padding: "0 8rem",
     borderRadius: "2rem",
   },
@@ -49,7 +49,7 @@ export default function MenuAppBar() {
     <AppBar
       position="static"
       style={{
-        background: "rgba(30, 146, 223, 0.3)",
+        background: "rgba(30, 146, 223, 0)",
         boxShadow: "none",
         paddingTop: "2rem",
       }}
@@ -74,7 +74,7 @@ export default function MenuAppBar() {
 
           <Grid container item xs={10} justify="center">
             <Button className={classes.startRoom} onClick={handleRoomClick}>
-              + Start a room
+              <Typography variant="button">+ Start a room</ Typography>
             </Button>
           </Grid>
           {auth && (

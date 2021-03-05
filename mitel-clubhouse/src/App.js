@@ -5,6 +5,22 @@ import axios from 'axios';
 // import Video from 'twilio-video';
 import twilioSdk from './utilities/twilio';
 // import { disconnect } from 'twilio-video'
+import { appTheme } from './AppTheme';
+import { ThemeProvider } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Hallway from './components/Hallway.js';
+
+import Debug from "./components/Debug";
+import NavBar from "./components/NavBar";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
+
 
 import { Button, TextField, Card, CardContent } from '@material-ui/core';
 
@@ -68,27 +84,26 @@ function App() {
   };
 
   return (
-    <div className="App">
-        <div>
-          <h1>MITEL CORPORATE CLUBHOUSE</h1>
-        </div>
-        <audio id="remote-audio" autoPlay playsInline></audio>
-        <Button variant="contained" onClick={createNewRoom}>Create Room</Button>
-      <Card>
-        <CardContent>
-          <div className="flex-container">
-            <div className="flex-item">
-              <TextField id="RoomName" label="Room Name" value={state.roomName} onChange={(event) => {handleRoomNameChange(event)}}></TextField>
-              <br />
-              <Button variant="contained" onClick={joinRoom}>Join Room</Button>
-              <br />
-              <br />
-              <Button variant="contained" onClick={leaveRoom}>Leave Room</Button>
-            </div>
-        </div>
-      </CardContent>
-    </Card>
-    </div>
+    <Router>
+      <ThemeProvider theme={appTheme}>
+        <CssBaseline />
+        <NavBar />
+        <Grid container justify="center">
+          <Hallway/>
+        </Grid>
+      </ThemeProvider>
+
+      <Switch>
+        <Route path="/user/:id">
+          <h2>User to do</h2>
+        </Route>
+        <Route path="/room/:id">
+          <h2>Room to do</h2>
+          <button>Click Me</button>
+          <video autoPlay playsInline></video>
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
