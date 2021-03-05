@@ -10,7 +10,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Hallway from './components/Hallway.js';
-
 import Debug from "./components/Debug";
 import NavBar from "./components/NavBar";
 import {
@@ -89,7 +88,7 @@ function App() {
         <CssBaseline />
         <NavBar />
         <Grid container justify="center">
-          <Hallway/>
+          <Hallway />
         </Grid>
       </ThemeProvider>
 
