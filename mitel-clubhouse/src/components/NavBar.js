@@ -6,8 +6,6 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
 import Grid from "@material-ui/core/Grid";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -84,19 +82,10 @@ export default function MenuAppBar() {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
   const [roomIcon, setRoomIcon] = React.useState("money");
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const [roomName, setRoomName] = React.useState("default");
 
   const handleRoomClick = (event) => {
     console.log("click");
-  };
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   const handleModalOpen = () => {
@@ -111,8 +100,27 @@ export default function MenuAppBar() {
     setRoomIcon(event.target.ariaLabel);
   };
 
-  const handleLetsGoButton = () => {
-    console.log("lets go");
+  const handleInputChange = (event) => {
+    setRoomName(event.target.value);
+  };
+
+  const handleLetsGoButton = async (event) => {
+    console.log("lets go", roomName, roomIcon);
+    const roomInfo = {
+      name: roomName,
+      icon: roomIcon,
+    };
+    const res = await fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(roomInfo),
+    });
+
+    const data = res.json();
+    console.log("added room...", res);
+    setModalOpen(false);
   };
 
   return (
@@ -131,6 +139,7 @@ export default function MenuAppBar() {
           justify="space-between"
           alignItems="center"
         >
+          {/* search button on navbar */}
           <Grid item xs>
             <IconButton
               edge="start"
@@ -143,12 +152,12 @@ export default function MenuAppBar() {
               />
             </IconButton>
           </Grid>
-
           <Grid container item xs={10} justify="center">
             <Button className={classes.startRoom} onClick={handleModalOpen}>
               <Typography variant="button">+ Start a room</Typography>
             </Button>
           </Grid>
+          {/* //modal */}
           <Modal
             aria-labelledby="add room"
             aria-describedby="add room modal"
@@ -170,8 +179,10 @@ export default function MenuAppBar() {
                   className={classes.roomNameInput}
                   aria-describedby="my-helper-text"
                   placeholder="Name your Room (optional)"
+                  onChange={handleInputChange}
                 />
                 <Typography variant="body2">Select the room icon</Typography>
+                {/* //emoji button group */}
                 <div>
                   <Button
                     value="books"
@@ -220,10 +231,11 @@ export default function MenuAppBar() {
                 <Typography variant="body2">
                   Start a room open to everyone
                 </Typography>
+                {/* //lets go button inside modal */}
                 <div>
                   <Button
                     className={classes.letsGoButton}
-                    onClick={handleModalClose}
+                    onClick={handleLetsGoButton}
                   >
                     <span role="img" aria-label="muscle">
                       💪 Let's go
@@ -233,13 +245,12 @@ export default function MenuAppBar() {
               </div>
             </Fade>
           </Modal>
-
+          {/* account icon on nav bar */}
           <Grid item xs>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleMenu}
               color="inherit"
             >
               <AccountCircle
@@ -251,23 +262,6 @@ export default function MenuAppBar() {
                 }}
               />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>My Profile</MenuItem>
-            </Menu>
           </Grid>
         </Grid>
       </Toolbar>
