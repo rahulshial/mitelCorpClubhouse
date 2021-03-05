@@ -9,7 +9,7 @@ import RoomPreview from './RoomPreview.js';
 
 const useStyles = makeStyles( (theme) => ({
    container: {
-       padding: '30px 0px 30px 0px'
+       padding: '30px 20px 30px 20px'
    }
 }));
 
@@ -96,7 +96,7 @@ export default function Hallway () {
         <Box maxWidth={1500} justify="center" className={classes.container}>
             <Grid container justify="center" spacing={3}>
                 {roomData.map( (room) => (
-                    <Grid item xs={5}>
+                    <Grid item xs={12} md={5} xl={4} >
                         <RoomPreview
                             name={room.roomName}
                             particpants={room.participantsList}
