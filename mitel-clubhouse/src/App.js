@@ -92,8 +92,6 @@ function App() {
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <NavBar createRoom={createNewRoom}/>
-        <p onClick={fireAuth.signInWithGoogle}>Sign in</p>
-        <p onClick={fireAuth.signOut}>sign out</p>
         <audio id="remote-audio" autoPlay playsInline></audio>
       </ThemeProvider>
 
