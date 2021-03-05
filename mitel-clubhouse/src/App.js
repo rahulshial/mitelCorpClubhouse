@@ -59,6 +59,10 @@ function App() {
       // videoRoom.disconnect();
       console.log('leaving room');
       twilioSdk.leaveMediaRoom(videoRoom, 'remote-audio');
+      setState((prev) => ({
+        ...prev,
+        roomName: '',
+      }))
     };
   };
 
@@ -73,7 +77,7 @@ function App() {
         <CardContent>
           <div className="flex-container">
             <div className="flex-item">
-              <TextField id="RoomName" label="Room Name" onChange={(event) => {handleRoomNameChange(event)}}></TextField>
+              <TextField id="RoomName" label="Room Name" value={state.roomName} onChange={(event) => {handleRoomNameChange(event)}}></TextField>
               <br />
               <Button variant="contained" onClick={joinRoom}>Join Room</Button>
               <br />

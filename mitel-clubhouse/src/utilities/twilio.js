@@ -78,13 +78,20 @@ const twilioSdk = {
             })
     },
     leaveMediaRoom: (room, mediaDiv) => {
-        room.on('disconnected', room => {
-            // Detach the local media elements
-            room.localParticipant.tracks.forEach(track => {
-              const attachedElements = track.detach();
-              attachedElements.forEach(element => element.remove());
+        room.on('participantDisconnected', participant => {
+            console.log(`Participant "${participant.identity}" disconnected`);
+
+            participant.tracks.forEach(publication => {
+                if (publication.isSubscribed) {
+                const track = publication.track;
+                document.getElementById(mediaDiv).appendChild(track.detach());
+                }
             });
-          });
+
+            participant.on('trackSubscribed', track => {
+                document.getElementById(mediaDiv).appendChild(track.detach());
+            });
+        });
           room.disconnect();
     }
 }
