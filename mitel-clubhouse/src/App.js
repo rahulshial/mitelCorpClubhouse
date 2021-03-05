@@ -1,5 +1,5 @@
 import React from 'react';
-import Debug from './Debug';
+import Debug from './components/Debug';
 import './App.css';
 
 import {
@@ -16,6 +16,7 @@ export default function App() {
       <div>
         <h1>Main body to do (hallway and header)</h1>
       </div>
+      <Debug />
 
       <Switch>
         <Route path="/user/:id">
