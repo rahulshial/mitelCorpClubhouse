@@ -17,6 +17,11 @@ import {
   Redirect,
 } from "react-router-dom";
 
+import {FirebaseChat} from './utilities/FirebaseChat';
+import {fireDb, auth, fireAuth} from './utilities/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+
 export default function App() {
   const options = {
     video: true,
@@ -43,6 +48,11 @@ export default function App() {
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <NavBar />
+        <Grid container justify="center">
+          <Hallway/>
+        </Grid>
+        <p onClick={fireAuth.signInWithGoogle}>Sign in</p>
+        <p onClick={fireAuth.signOut}>sign out</p>
         <Switch>
           <Route path="/user/:id">
             <h2>User to do</h2>
