@@ -7,12 +7,14 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Hallway from "./components/Hallway.js";
 import Debug from "./Debug";
 import NavBar from "./components/NavBar";
+import SingleRoom from "./components/SingleRoom"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
+  Redirect,
 } from "react-router-dom";
 
 export default function App() {
@@ -41,21 +43,23 @@ export default function App() {
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <NavBar />
-        <Grid container justify="center">
-          <Hallway />
-        </Grid>
+        <Switch>
+          <Route path="/user/:id">
+            <h2>User to do</h2>
+          </Route>
+          <Route path="/room/:id">
+            <SingleRoom />
+            <button onClick={getUserMedia}>Click Me</button>
+            <video autoPlay playsInline></video>
+          </Route>
+          <Route exact path="/">
+            <Grid container justify="center">
+              <Hallway />
+            </Grid>
+          </Route>
+          <Route render={ () => <Redirect to={{pathname: "/"}}/> }/>
+        </Switch>
       </ThemeProvider>
-
-      <Switch>
-        <Route path="/user/:id">
-          <h2>User to do</h2>
-        </Route>
-        <Route path="/room/:id">
-          <h2>Room to do</h2>
-          <button onClick={getUserMedia}>Click Me</button>
-          <video autoPlay playsInline></video>
-        </Route>
-      </Switch>
     </Router>
   );
 }
