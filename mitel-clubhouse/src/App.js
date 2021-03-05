@@ -88,31 +88,32 @@ function App() {
   return (
     <Router>
       <ThemeProvider theme={appTheme}>
-        <CssBaseline />
+          <CssBaseline />
 
-        <audio id="remote-audio" autoPlay playsInline></audio>
+          <audio id="remote-audio" autoPlay playsInline></audio>
+        
+
+        <Switch>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/room/:id">
+            <NavBar createRoom={createNewRoom} />
+
+            <SingleRoom />
+            {/* <button onClick={getUserMedia}>Click Me</button> */}
+            <video autoPlay playsInline></video>
+          </Route>
+          <Route exact path="/">
+            <NavBar createRoom={createNewRoom} />
+
+            <Grid container justify="center">
+              <Hallway joinRoom={joinRoom} />
+            </Grid>
+          </Route>
+          <Route render={() => <Redirect to={{ pathname: "/" }} />} />
+        </Switch>
       </ThemeProvider>
-
-      <Switch>
-        <Route path="/profile">
-          <Profile />
-        </Route>
-        <Route path="/room/:id">
-          <NavBar createRoom={createNewRoom} />
-
-          <SingleRoom />
-          {/* <button onClick={getUserMedia}>Click Me</button> */}
-          <video autoPlay playsInline></video>
-        </Route>
-        <Route exact path="/">
-          <NavBar createRoom={createNewRoom} />
-
-          <Grid container justify="center">
-            <Hallway joinRoom={joinRoom} />
-          </Grid>
-        </Route>
-        <Route render={() => <Redirect to={{ pathname: "/" }} />} />
-      </Switch>
     </Router>
   );
 }
