@@ -1,7 +1,15 @@
 import React from 'react';
+import Debug from './Debug';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams
+} from "react-router-dom"
 
-function App() {
+export default function App() {
 
   const options = {
     video: true,
@@ -30,12 +38,24 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h1>MITEL CORPORATE CLUBHOUSE</h1>
-      <button onClick={getUserMedia}>Click Me</button>
-      <video autoPlay playsInline></video>
-    </div>
+    <Router>
+      <div>
+        <h1>Main body to do (hallway and header)</h1>
+        
+      </div>
+
+      <Switch>
+        <Route path="/user/:id">
+          <h2>User to do</h2>
+        </Route>
+        <Route path="/room/:id">
+          <h2>Room to do</h2>
+          <button onClick={getUserMedia}>Click Me</button>
+          <video autoPlay playsInline></video>
+        </Route>
+      </Switch>
+
+    </Router>
   );
 }
 
-export default App;
