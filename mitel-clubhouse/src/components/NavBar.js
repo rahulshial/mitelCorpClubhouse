@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
@@ -112,7 +113,7 @@ export default function NavBar(props) {
         boxShadow: "none",
         paddingTop: "1rem",
         position: "sticky",
-        top: "0"
+        top: "0",
       }}
     >
       <Toolbar>
@@ -230,21 +231,23 @@ export default function NavBar(props) {
           </Modal>
           {/* account icon on nav bar */}
           <Grid item xs>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle
-                fontSize="large"
-                style={{
-                  color: "#424242",
+            <Link to="/profile">
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle
+                  fontSize="large"
+                  style={{
+                    color: "#424242",
 
-                  fontSize: 40,
-                }}
-              />
-            </IconButton>
+                    fontSize: 40,
+                  }}
+                />
+              </IconButton>
+            </Link>
           </Grid>
         </Grid>
       </Toolbar>

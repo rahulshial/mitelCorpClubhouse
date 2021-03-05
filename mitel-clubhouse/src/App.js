@@ -7,7 +7,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Hallway from "./components/Hallway.js";
 import Debug from "./Debug";
 import NavBar from "./components/NavBar";
-import SingleRoom from "./components/SingleRoom"
+import SingleRoom from "./components/SingleRoom";
+import Profile from "./components/Profile";
 import {
   BrowserRouter as Router,
   Switch,
@@ -42,22 +43,25 @@ export default function App() {
     <Router>
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
-        <NavBar />
         <Switch>
-          <Route path="/user/:id">
-            <h2>User to do</h2>
+          <Route path="/profile">
+            <Profile />
           </Route>
           <Route path="/room/:id">
+            <NavBar />
+
             <SingleRoom />
             <button onClick={getUserMedia}>Click Me</button>
             <video autoPlay playsInline></video>
           </Route>
           <Route exact path="/">
+            <NavBar />
+
             <Grid container justify="center">
               <Hallway />
             </Grid>
           </Route>
-          <Route render={ () => <Redirect to={{pathname: "/"}}/> }/>
+          <Route render={() => <Redirect to={{ pathname: "/" }} />} />
         </Switch>
       </ThemeProvider>
     </Router>
