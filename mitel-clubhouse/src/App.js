@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Hallway from './components/Hallway.js';
 
 import Debug from "./Debug";
-import NavBar from "./NavBar/NavBar";
+import NavBar from "./components/NavBar";
 import {
   BrowserRouter as Router,
   Switch,
