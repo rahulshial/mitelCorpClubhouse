@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Hallway from "./components/Hallway.js";
 import Debug from "./Debug";
-import NavBar from "./components/NavBar/NavBar";
+import NavBar from "./components/NavBar";
 import {
   BrowserRouter as Router,
   Switch,
