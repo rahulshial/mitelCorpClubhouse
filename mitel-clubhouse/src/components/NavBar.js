@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
     textSize: "30px",
     marginTop: "3rem",
     marginBottom: "1rem",
+    
   },
   roomInputLabel: {
     textAlign: "center",
@@ -69,13 +70,22 @@ const useStyles = makeStyles((theme) => ({
   letsGoButton: {
     backgroundColor: "#3FD77E",
     color: "white",
-    fontSize: "24px",
-    padding: "0 8rem",
+    fontSize: "28px",
+    padding: "0.25rem 8rem",
     borderRadius: "2rem",
+    fontWeight: 700,
+    fontFamily: "Quicksand",
   },
   roomEmojis: {
     fontSize: "4rem",
   },
+  modalText:{
+    margin:"2rem",
+    color: "black",
+    fontWeight: 700,
+    textAlign: "center",
+    fontFamily: "Quicksand",
+  }
 }));
 
 export default function NavBar({ createRoom }) {
@@ -166,7 +176,7 @@ export default function NavBar({ createRoom }) {
                   placeholder="Name your Room (optional)"
                   onChange={handleInputChange}
                 />
-                <Typography variant="body2">Select the room icon</Typography>
+                <Typography variant="h4" className={classes.modalText}>Select the room icon</Typography>
                 {/* //emoji button group */}
                 <div>
                   <Button
@@ -213,7 +223,7 @@ export default function NavBar({ createRoom }) {
                     <AddIcon className={classes.roomEmojis} />
                   </Button>
                 </div>
-                <Typography variant="body2">
+                <Typography className={classes.modalText} variant="h4">
                   Start a room open to everyone
                 </Typography>
                 {/* //lets go button inside modal */}

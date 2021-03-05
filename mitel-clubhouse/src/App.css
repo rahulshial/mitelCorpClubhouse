@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+
+.MuiInputBase-input{
+  text-align: center !important;
+  font-weight: bold !important;
+  color: black !important;
+  font-size: 28px !important;
+}
