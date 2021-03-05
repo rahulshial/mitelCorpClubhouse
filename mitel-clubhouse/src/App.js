@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import Video from 'twilio-video';
-import Debug from './components/Debug';
+import twilioSdk from './utilities/twilio';
 
 import { Button, TextField, Card, CardContent } from '@material-ui/core';
 
@@ -28,45 +28,51 @@ function App() {
     }));
   };
 
-  const joinRoom = () => {
-    axios.get(`/token/${state.roomName}`)
-    .then((response) => {
-      console.log(response);
-      const { identity, token } = response.data;
-      setState((prev) => ({
-        ...prev,
-        identity,
-        token
-      }))
-      const decodedToken = jwt_decode(state.token);
-      const TOKEN = JSON.stringify(decodedToken)
-      if(!state.roomName.trim()) {
-        setState((prev) => ({
-          ...prev,
-          roomNameErr: true,
-        }));
-        return;
-      };
-      console.log("Joining room '" + state.roomName + "'...");
-      let connectOptions = {
-        name: state.roomName
-      };
-      Video.connect(TOKEN, connectOptions)
-      .then((data) => {
-        console.log('Room Joined: ', data);
-        console.log("Joined as '" + state.identity + "'");
-        setState((prev) => ({
-          ...prev,
-          activeRoom: state.roomName,
-          localMediaAvailable: true,
-          hasJoinedRoom: true  // Removes ‘Join Room’ button and shows ‘Leave Room’
-        }));
-      });
-    })
-    .catch((error) => {
-      console.log('Connect Error: ', error)
-      alert('Could not connect to Twilio: ' + error.message);
-    });
+  const joinRoom = async () => {
+    const userName = `user${Math.random()*100}`
+    const roomName = state.roomName
+    const token = twilioSdk.fetchVideoToken(userName, roomName)
+    const currRoom = await twilioSdk.joinMediaRoom(token, roomName)
+    twilioSdk.subscribeToRoomMedia(currRoom, 'remote-audio')
+    twilioSdk.subscribeToMediaChanges(currRoom, 'remote-audio')
+    // axios.get(`/token/${state.roomName}`)
+    // .then((response) => {
+    //   console.log(response);
+    //   const { identity, token } = response.data;
+    //   setState((prev) => ({
+    //     ...prev,
+    //     identity,
+    //     token
+    //   }))
+    //   const decodedToken = jwt_decode(state.token);
+    //   const TOKEN = JSON.stringify(decodedToken)
+    //   if(!state.roomName.trim()) {
+    //     setState((prev) => ({
+    //       ...prev,
+    //       roomNameErr: true,
+    //     }));
+    //     return;
+    //   };
+    //   console.log("Joining room '" + state.roomName + "'...");
+    //   let connectOptions = {
+    //     name: state.roomName
+    //   };
+    //   Video.connect(TOKEN, connectOptions)
+    //   .then((data) => {
+    //     console.log('Room Joined: ', data);
+    //     console.log("Joined as '" + state.identity + "'");
+    //     setState((prev) => ({
+    //       ...prev,
+    //       activeRoom: state.roomName,
+    //       localMediaAvailable: true,
+    //       hasJoinedRoom: true  // Removes ‘Join Room’ button and shows ‘Leave Room’
+    //     }));
+    //   });
+    // })
+    // .catch((error) => {
+    //   console.log('Connect Error: ', error)
+    //   alert('Could not connect to Twilio: ' + error.message);
+    // });
   };
 
   const createNewRoom = () => {
@@ -85,7 +91,7 @@ function App() {
         <div>
           <h1>MITEL CORPORATE CLUBHOUSE</h1>
         </div>
-        <Debug />
+        <audio id="remote-audio" autoPlay playsInline></audio>
         <Button variant="contained" onClick={createNewRoom}>Create Room</Button>
 
       <Card>
