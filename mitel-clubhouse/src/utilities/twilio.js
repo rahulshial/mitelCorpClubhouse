@@ -1,7 +1,21 @@
 import { connect } from 'twilio-video'
 
 const twilioSdk = {
-    setRemoteMedia: (room, mediaDiv) => {
+    subscribeToRoomMedia: (room, mediaDiv) => {
+        room.participants.forEach(participant => {
+            participant.tracks.forEach(publication => {
+                if (publication.track) {
+                    document.getElementById(mediaDiv).appendChild(publication.track.attach());
+                }
+            })
+
+            participant.on('trackSubscribed', track => {
+                document.getElementById(mediaDiv).appendChild(track.attach());
+            });
+        })
+
+    },
+    subscribeToMediaChanges: (room, mediaDiv) => {
         room.on('participantConnected', participant => {
             console.log(`Participant "${participant.identity}" connected`);
 
@@ -12,29 +26,9 @@ const twilioSdk = {
                 }
             });
 
-            room.participants.forEach(participant => {
-                participant.tracks.forEach(publication => {
-                    if (publication.track) {
-                        document.getElementById(mediaDiv).appendChild(publication.track.attach());
-                    }
-                })
-            })
-
             participant.on('trackSubscribed', track => {
                 document.getElementById(mediaDiv).appendChild(track.attach());
             });
-
-            room.participants.forEach(participant => {
-                participant.tracks.forEach(publication => {
-                  if (publication.track) {
-                    document.getElementById(mediaDiv).appendChild(publication.track.attach());
-                  }
-                });
-              
-               participant.on('trackSubscribed', track => {
-                  document.getElementById(mediaDiv).appendChild(track.attach());
-                });
-              });
         });
     },
     joinMediaRoom: async (token, roomName) => {
