@@ -166,6 +166,7 @@ export default function MenuAppBar() {
             <Fade in={modalOpen}>
               <div className={classes.paper}>
                 <TextField
+                  style={{ fontFamily: "Quicksand" }}
                   className={classes.roomNameInput}
                   aria-describedby="my-helper-text"
                   placeholder="Name your Room (optional)"
