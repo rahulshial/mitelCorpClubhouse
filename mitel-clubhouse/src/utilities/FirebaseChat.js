@@ -20,11 +20,7 @@ function FirebaseChat(props) {
 
   return (
     <div className="App">
-      <header>
-        <h1>⚛️🔥💬</h1>
-        <SignOut />
-      </header>
-
+    <SignOut/>
       <section>
         {user ? <ChatRoom /> : <SignIn />}
       </section>
