@@ -92,26 +92,27 @@ function App() {
         <audio id="remote-audio" autoPlay playsInline></audio>
       </ThemeProvider>
 
-      <Switch>
-        <Route path="/profile">
-          <Profile />
-        </Route>
-        <Route path="/room/:id">
-          <NavBar createRoom={createNewRoom} />
+        <Switch>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/room/:id">
+            <NavBar createRoom={createNewRoom} />
 
-          <SingleRoom />
-          {/* <button onClick={getUserMedia}>Click Me</button> */}
-          <video autoPlay playsInline></video>
-        </Route>
-        <Route exact path="/">
-          <NavBar createRoom={createNewRoom} />
+            <SingleRoom leaveRoom={leaveRoom}/>
+            {/* <button onClick={getUserMedia}>Click Me</button> */}
+            <video autoPlay playsInline></video>
+          </Route>
+          <Route exact path="/">
+            <NavBar createRoom={createNewRoom} />
 
-          <Grid container justify="center">
-            <Hallway joinRoom={joinRoom} />
-          </Grid>
-        </Route>
-        <Route render={() => <Redirect to={{ pathname: "/" }} />} />
-      </Switch>
+            <Grid container justify="center">
+              <Hallway joinRoom={joinRoom} />
+            </Grid>
+          </Route>
+          <Route render={() => <Redirect to={{ pathname: "/" }} />} />
+        </Switch>
+      </ThemeProvider>
     </Router>
   );
 }
