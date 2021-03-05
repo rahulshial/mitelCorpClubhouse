@@ -25,8 +25,9 @@ const useStyles = makeStyles((theme) => ({
   startRoom: {
     backgroundColor: "#3FD77E",
     color: "white",
-    fontSize: "24px",
-    padding: "0 8rem",
+    fontSize: "28px",
+    padding: "0.25rem 8rem",
+    fontFamily: "Quicksand",
     borderRadius: "2rem",
   },
   modal: {
