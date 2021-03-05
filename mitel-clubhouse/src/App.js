@@ -59,6 +59,7 @@ function App() {
       // videoRoom.disconnect();
       console.log('leaving room');
       twilioSdk.leaveMediaRoom(videoRoom, 'remote-audio');
+      twilioSdk.subscribeToMediaChanges(videoRoom, 'remote-audio');
       setState((prev) => ({
         ...prev,
         roomName: '',

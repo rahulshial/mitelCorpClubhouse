@@ -64,6 +64,19 @@ const twilioSdk = {
                 document.getElementById(mediaDiv).appendChild(track.attach());
             });
         });
+        room.on('participantDisconnected', participant => {
+            console.log(`Participant "${participant.identity}" disconnected`);
+
+            participant.tracks.forEach(publication => {
+                if (publication.isSubscribed) {
+                const track = publication.track;
+                document.getElementById(mediaDiv).appendChild(track.detach());
+                }
+            });
+            participant.on('trackSubscribed', track => {
+                document.getElementById(mediaDiv).appendChild(track.detach());
+            });
+        });
     },
     joinMediaRoom: async (token, roomName) => {
         return connect(token, {
@@ -78,21 +91,7 @@ const twilioSdk = {
             })
     },
     leaveMediaRoom: (room, mediaDiv) => {
-        room.on('participantDisconnected', participant => {
-            console.log(`Participant "${participant.identity}" disconnected`);
-
-            participant.tracks.forEach(publication => {
-                if (publication.isSubscribed) {
-                const track = publication.track;
-                document.getElementById(mediaDiv).appendChild(track.detach());
-                }
-            });
-
-            participant.on('trackSubscribed', track => {
-                document.getElementById(mediaDiv).appendChild(track.detach());
-            });
-        });
-          room.disconnect();
+        room.disconnect();
     }
 }
 
