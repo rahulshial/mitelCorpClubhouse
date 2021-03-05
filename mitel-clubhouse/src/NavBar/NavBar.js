@@ -16,6 +16,9 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,36 +41,48 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
   },
   paper: {
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: "white",
     position: "absolute",
+    alignItems: "center",
+    margin: "auto",
     borderRadius: "50px",
     border: "none",
     width: "65%",
     height: "70%",
   },
   roomNameInput: {
-    display: "flex",
-    position: "absolute",
     backgroundColor: "#F1EEE7",
     borderRadius: "15px",
-    left: "25%",
-    top: "10%",
     width: "50%",
     height: "12%",
     border: "none",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     textAlign: "center",
     textSize: "30px",
+    margin: "4rem 0 2rem 0",
   },
   roomInputLabel: {
     textAlign: "center",
     textSize: "30px",
+  },
+  letsGoButton: {
+    backgroundColor: "#3FD77E",
+    color: "white",
+    fontSize: "24px",
+    padding: "0 8rem",
+    borderRadius: "2rem",
+  },
+  roomEmojis: {
+    fontSize: "6rem",
   },
 }));
 
 export default function MenuAppBar() {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [roomIcon, setRoomIcon] = React.useState("money");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -89,6 +104,14 @@ export default function MenuAppBar() {
 
   const handleModalClose = () => {
     setModalOpen(false);
+  };
+
+  const handleRoomIcon = (event, newRoomIcon) => {
+    setRoomIcon(newRoomIcon);
+  };
+
+  const handleLetsGoButton = () => {
+    console.log("lets go");
   };
 
   return (
@@ -123,9 +146,6 @@ export default function MenuAppBar() {
           <Grid container item xs={10} justify="center">
             <Button className={classes.startRoom} onClick={handleModalOpen}>
               + Start a room
-              {/* <span role="img" aria-label="muscle">
-                💪
-              </span> */}
             </Button>
           </Grid>
           <Modal
@@ -143,14 +163,78 @@ export default function MenuAppBar() {
             <Fade in={modalOpen}>
               <div className={classes.paper}>
                 <FormControl className={classes.roomNameInput}>
-                  <InputLabel
+                  {/* <InputLabel
                     htmlFor="my-input"
                     className={classes.roomInputLabel}
                   >
                     Name your Room (optional)
-                  </InputLabel>
-                  <Input aria-describedby="my-helper-text" />
+                  </InputLabel> */}
+                  <Input
+                    aria-describedby="my-helper-text"
+                    placeholder="Name your Room (optional)"
+                  />
                 </FormControl>
+                <p style={{}}>Select the room icon</p>
+                <div>
+                  <ToggleButtonGroup
+                    value={roomIcon}
+                    exclusive
+                    onChange={handleRoomIcon}
+                    aria-label="text alignment"
+                    style={{ marginBottom: "4rem" }}
+                  >
+                    <Button
+                      value="books"
+                      aria-label="books"
+                      className={classes.roomEmojis}
+                    >
+                      <span role="img" aria-label="books">
+                        📚
+                      </span>
+                    </Button>
+                    <Button
+                      value="burger"
+                      aria-label="burger"
+                      className={classes.roomEmojis}
+                    >
+                      <span role="img" aria-label="burger">
+                        🍔
+                      </span>
+                    </Button>
+                    <Button
+                      value="money"
+                      aria-label="money"
+                      className={classes.roomEmojis}
+                    >
+                      <span role="img" aria-label="money">
+                        💸
+                      </span>
+                    </Button>
+                    <Button
+                      value="keyboard"
+                      aria-label="keyboard"
+                      className={classes.roomEmojis}
+                    >
+                      <span role="img" aria-label="keyboard">
+                        ⌨️
+                      </span>
+                    </Button>
+                    <Button value="add" aria-label="add">
+                      <AddIcon className={classes.roomEmojis} />
+                    </Button>
+                  </ToggleButtonGroup>
+                </div>
+                <p>Start a room open to everyone</p>
+                <div>
+                  <Button
+                    className={classes.letsGoButton}
+                    onClick={handleLetsGoButton}
+                  >
+                    <span role="img" aria-label="muscle">
+                      💪 Let's go
+                    </span>
+                  </Button>
+                </div>
               </div>
             </Fade>
           </Modal>
