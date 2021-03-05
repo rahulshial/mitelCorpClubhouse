@@ -1,19 +1,20 @@
-import React from 'react';
-import './App.css';
-import { appTheme } from './AppTheme';
-import { ThemeProvider } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import React from "react";
+import "./App.css";
+import { appTheme } from "./AppTheme";
+import { ThemeProvider } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Hallway from './components/Hallway.js';
-
+import Hallway from "./components/Hallway.js";
 import Debug from "./Debug";
 import NavBar from "./components/NavBar";
+import SingleRoom from "./components/SingleRoom"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useParams,
+  Redirect,
 } from "react-router-dom";
 
 import {FirebaseChat} from './utilities/FirebaseChat';
@@ -52,18 +53,23 @@ export default function App() {
         </Grid>
         <p onClick={fireAuth.signInWithGoogle}>Sign in</p>
         <p onClick={fireAuth.signOut}>sign out</p>
+        <Switch>
+          <Route path="/user/:id">
+            <h2>User to do</h2>
+          </Route>
+          <Route path="/room/:id">
+            <SingleRoom />
+            <button onClick={getUserMedia}>Click Me</button>
+            <video autoPlay playsInline></video>
+          </Route>
+          <Route exact path="/">
+            <Grid container justify="center">
+              <Hallway />
+            </Grid>
+          </Route>
+          <Route render={ () => <Redirect to={{pathname: "/"}}/> }/>
+        </Switch>
       </ThemeProvider>
-
-      <Switch>
-        <Route path="/user/:id">
-          <h2>User to do</h2>
-        </Route>
-        <Route path="/room/:id">
-          <h2>Room to do</h2>
-          <button onClick={getUserMedia}>Click Me</button>
-          <video autoPlay playsInline></video>
-        </Route>
-      </Switch>
     </Router>
   );
 }
