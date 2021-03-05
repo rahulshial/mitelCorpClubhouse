@@ -78,13 +78,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavBar(props) {
+export default function NavBar({ createRoom }) {
   const classes = useStyles();
   const [modalOpen, setModalOpen] = React.useState(false);
   const [roomIcon, setRoomIcon] = React.useState("money");
-  const [roomName, setRoomName] = React.useState("default");
+  const [roomName, handleRoomName] = React.useState("default");
 
   const handleRoomClick = (event) => {
+    createRoom(roomName);
+    handleModalClose();
     console.log("click");
   };
 
@@ -101,7 +103,7 @@ export default function NavBar(props) {
   };
 
   const handleInputChange = (event) => {
-    setRoomName(event.target.value);
+    handleRoomName(event.target.value);
   };
 
   return (
@@ -216,7 +218,7 @@ export default function NavBar(props) {
                 <div>
                   <Button
                     className={classes.letsGoButton}
-                    onClick={props.clicked}
+                    onClick={() => handleRoomClick(roomName)}
                   >
                     <span role="img" aria-label="muscle">
                       💪 Let's go

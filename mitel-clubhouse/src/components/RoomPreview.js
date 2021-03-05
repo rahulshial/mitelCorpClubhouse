@@ -35,7 +35,7 @@ const useStyles = makeStyles( (theme) => ({
   },
 }));
 
-export default function RoomPreview(props) {
+export default function RoomPreview({joinRoom, ...props}) {
     const classes = useStyles();
     const [ name, setRoomData ] = useState(props.name);
     const [ participants, setParticipants ] = useState(props.particpants);
@@ -67,8 +67,8 @@ export default function RoomPreview(props) {
                             <img className={classes.icons} src="https://img.icons8.com/plasticine/64/000000/coffee.png"/>
                         </Grid>
                         <Grid container item xs={12} justify="center" alignItems="center">
-                            <Button color="secondary" variant="contained" className={classes.joinRoom} disableElevation>
-                                <Typography variant="body1">Join room</ Typography>
+                            <Button onClick={() => joinRoom(name)} color="secondary" variant="contained" className={classes.joinRoom} disableElevation>
+                                <Typography variant="body1" >Join room</ Typography>
                             </Button>
                         </Grid>
                     </Grid>

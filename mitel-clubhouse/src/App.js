@@ -10,7 +10,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Hallway from './components/Hallway.js';
-import Debug from "./components/Debug";
 import NavBar from "./components/NavBar";
 import {
   BrowserRouter as Router,
@@ -37,16 +36,17 @@ function App() {
     roomSID: null,
   });
 
-  const handleRoomNameChange = (event) => {
+  const handleRoomNameChange = (newRoomName) => {
     setState((prev) => ({
       ...prev,
-      roomName: event.target.value,
+      roomName: newRoomName,
     }));
   };
 
-  const joinRoom = async () => {
+  const joinRoom = async (roomName) => {
+    console.log(roomName)
+    handleRoomNameChange(roomName)
     const userName = `user${Math.random()*100}`;
-    const roomName = state.roomName;
     const token = twilioSdk.fetchVideoToken(userName, roomName);
     const currRoom = await twilioSdk.joinMediaRoom(token, roomName);
     setState((prev) => ({
@@ -55,12 +55,13 @@ function App() {
     }))
     twilioSdk.subscribeToRoomMedia(currRoom, 'remote-audio');
     twilioSdk.subscribeToMediaChanges(currRoom, 'remote-audio');
-
   };
 
-  const createNewRoom = () => {
-    axios.post(`/createRoom/${state.roomName}`)
+  const createNewRoom = (roomName) => {
+    handleRoomNameChange(roomName)
+    axios.post(`/createRoom/${roomName}`)
     .then((res) => {
+      console.log(JSON.stringify(res))
       setState((prev) => ({
         ...prev,
         roomSID: res.data.sid,
@@ -86,9 +87,9 @@ function App() {
     <Router>
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
-        <NavBar />
+        <NavBar createRoom={createNewRoom}/>
         <Grid container justify="center">
-          <Hallway />
+          <Hallway joinRoom={joinRoom}/>
         </Grid>
       </ThemeProvider>
 
