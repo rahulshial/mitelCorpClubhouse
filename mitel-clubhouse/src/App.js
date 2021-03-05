@@ -16,6 +16,8 @@ import {
   useParams,
 } from "react-router-dom";
 
+import {FirebaseChat} from './utilities/FirebaseChat'
+
 export default function App() {
   const options = {
     video: true,
@@ -37,6 +39,7 @@ export default function App() {
     }
   };
 
+  
   return (
     <Router>
       <ThemeProvider theme={appTheme}>

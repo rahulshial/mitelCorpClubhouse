@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import fireDb from './utilities/firebase'
+import {fireDb} from './utilities/firebase'
 
 const Debug = () => {
     const [debugData, setDebugData] = useState({});
