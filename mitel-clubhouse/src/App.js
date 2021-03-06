@@ -14,6 +14,7 @@ import Hallway from "./components/Hallway.js";
 import NavBar from "./components/NavBar";
 import SingleRoom from "./components/SingleRoom";
 import Profile from "./components/Profile";
+import Welcome from './components/Welcome';
 import {
   BrowserRouter as Router,
   Switch,
@@ -107,6 +108,11 @@ function App() {
 
             <Grid container justify="center">
               <Hallway joinRoom={joinRoom} />
+            </Grid>
+          </Route>
+          <Route exact path="/welcome">
+            <Grid container justify="center">
+              <Welcome />
             </Grid>
           </Route>
           <Route render={() => <Redirect to={{ pathname: "/" }} />} />
